@@ -28,7 +28,7 @@ public class ServerImplementation implements ServerInterface {
      * 
      * @throws RemoteException 
      */
-    public ServerImplementation() throws RemoteException {
+    public ServerImplementation() {
         controle = new Controller();
         simulador = new SimuladorBolsa(controle);
         simulador.start();
@@ -88,7 +88,7 @@ public class ServerImplementation implements ServerInterface {
      * @param args 
      */
     public static void main(String ... args){
-        try {
+        
             ServerImplementation server = new ServerImplementation();
             
             server.addEmpresa(new Empresa("PB568A").setName("PanBas").setValue(322));
@@ -98,8 +98,6 @@ public class ServerImplementation implements ServerInterface {
             server.addEmpresa(new Empresa("RT652A").setName("RaTimbum").setValue(89));
             server.addEmpresa(new Empresa("XM965A").setName("XMLinha").setValue(186));
             
-        } catch (RemoteException ex) {
-        }
     }
 
     @Override

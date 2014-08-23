@@ -30,18 +30,14 @@
             <artifactId>jersey-server</artifactId>
             <version>1.8</version>
         </dependency>
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>1.9-ea04</version>
-            <type>jar</type>
-        </dependency>
+        
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
+ 
     </dependencies>
 
     <build>

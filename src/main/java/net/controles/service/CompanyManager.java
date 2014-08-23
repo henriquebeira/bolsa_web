@@ -118,15 +118,15 @@ public class CompanyManager {
                     int quantidade = Math.min(compra.getQuantidade(), venda.getQuantidade());
                     int mediaPreco = (compra.getPreçoUnitarioDesejado() + venda.getPreçoUnitarioDesejado()) / 2;
 
-                        //Notifica o comprador e o vendedor
-                        Operacao compraN = new Operacao(compra).setPreçoUnitarioDesejado(mediaPreco).setQuantidade(quantidade);
-                        Operacao vendaN = new Operacao(venda).setPreçoUnitarioDesejado(mediaPreco).setQuantidade(quantidade);
+                    //Notifica o comprador e o vendedor
+                    Operacao compraN = new Operacao(compra).setPreçoUnitarioDesejado(mediaPreco).setQuantidade(quantidade);
+                    Operacao vendaN = new Operacao(venda).setPreçoUnitarioDesejado(mediaPreco).setQuantidade(quantidade);
 
-                        if (venda.getClientSign().notifyCompletedOperation(vendaN)) {
-                            compra.getClientSign().notifyCompletedOperation(compraN);
-                        } else {
-                            continue;
-                        }
+                    if (venda.getClientSign().notifyCompletedOperation(vendaN)) {
+                        compra.getClientSign().notifyCompletedOperation(compraN);
+                    } else {
+                        continue;
+                    }
 
                     if (venda.getQuantidade() > quantidade) {
                         venda.setQuantidade(venda.getQuantidade() - quantidade);
@@ -191,12 +191,12 @@ public class CompanyManager {
                     int quantidade = Math.min(venda.getQuantidade(), compra.getQuantidade());
                     int mediaPreco = (venda.getPreçoUnitarioDesejado() + compra.getPreçoUnitarioDesejado()) / 2;
 
-                        //Notifica o comprador e o vendedor
-                        Operacao compraN = new Operacao(compra).setPreçoUnitarioDesejado(mediaPreco).setQuantidade(quantidade);
-                        Operacao vendaN = new Operacao(venda).setPreçoUnitarioDesejado(mediaPreco).setQuantidade(quantidade);
+                    //Notifica o comprador e o vendedor
+                    Operacao compraN = new Operacao(compra).setPreçoUnitarioDesejado(mediaPreco).setQuantidade(quantidade);
+                    Operacao vendaN = new Operacao(venda).setPreçoUnitarioDesejado(mediaPreco).setQuantidade(quantidade);
 
-                        compra.getClientSign().notifyCompletedOperation(compraN);
-                        venda.getClientSign().notifyCompletedOperation(vendaN);
+                    compra.getClientSign().notifyCompletedOperation(compraN);
+                    venda.getClientSign().notifyCompletedOperation(vendaN);
 
                     if (compra.getQuantidade() > quantidade) {
                         compra.setQuantidade(compra.getQuantidade() - quantidade);
@@ -256,7 +256,7 @@ public class CompanyManager {
 
         for (ClientInterface ouvinte : ouvintes) {
             //try {
-                ouvinte.notifyUpdate(empresa);
+            ouvinte.notifyUpdate(empresa);
             //} catch (RemoteException ex) {
             //    remove.add(ouvinte);
             //}
