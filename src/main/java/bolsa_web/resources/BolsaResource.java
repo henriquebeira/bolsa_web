@@ -50,7 +50,7 @@ public class BolsaResource {
         controle = new Controller();
         return controle.getListaEmpresas();
     }
-    
+   
     // retuns the number of todos
     // use http://localhost:8084/de.vogella.jersey.todo/rest/todos/count
     // to get the total number of records
@@ -60,7 +60,7 @@ public class BolsaResource {
     public String getCount() {
         return String.valueOf(2);
     }
-    
+/*    
     @POST
     @Produces(MediaType.TEXT_HTML)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -70,6 +70,7 @@ public class BolsaResource {
         
         return controle.getManagerFor(empresa.getID()).addOuvinte(client);
     }
+*/
 
     @POST
     @Produces(MediaType.TEXT_HTML)

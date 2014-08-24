@@ -19,14 +19,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Operacao implements Serializable {
     
-    private final boolean isCompra;
+    private boolean isCompra;
     private String companyID;
     private Integer quantidade;
     private Integer preçoUnitarioDesejado;
     private Calendar expireDate;
     
-    private final ClientInterface clientSign;
+    private ClientInterface clientSign;
 
+    public Operacao() {
+        
+    }
+    
     public Operacao(Operacao operacaoToClone){
         this.isCompra = operacaoToClone.isCompra;
         this.clientSign = operacaoToClone.clientSign;

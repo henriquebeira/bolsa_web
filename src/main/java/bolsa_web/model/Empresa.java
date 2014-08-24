@@ -18,9 +18,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Empresa implements Serializable {
     
     private String name;
-    private final String ID; //Chave para referencia
+    private String ID; //Chave para referencia
     private Integer value; //Valor em centavos (100 -> 1 R$)
 
+    public Empresa() {
+        
+    }
+    
     public Empresa(String ID) {
         this.ID = ID;
     }
