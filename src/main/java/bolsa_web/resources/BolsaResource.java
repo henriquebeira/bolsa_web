@@ -89,16 +89,10 @@ public class BolsaResource {
     // Allows to type http://localhost:8084/bolsa_web/rest/bolsa/PB568A
     // 1 will be treaded as parameter todo and passed to TodoResource
     
+    @GET
     @Path("{id}")
     public Empresa getCompanyForID(@PathParam("id") String id) {
-        System.out.println(id);
-        CompanyManager manager = server.getControle().getManagerFor(id);
-
-        if (manager != null) {
-            return manager.getEmpresa();
-        } else {
-            return null;
-        }
+        return server.getCompanyForID(id);
     }
 
 }
