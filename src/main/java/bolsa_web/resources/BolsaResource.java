@@ -19,12 +19,13 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 import net.controles.service.CompanyManager;
 import net.controles.service.Controller;
+import net.controles.service.ServerImplementation;
 
 // Will map the resource to the URL todos
 @Path("/bolsa")
 public class BolsaResource {
 
-    private Controller controle;
+    ServerImplementation server = new ServerImplementation();
     
     // Allows to insert contextual objects into the class, 
     // e.g. ServletContext, Request, Response, UriInfo
@@ -38,8 +39,7 @@ public class BolsaResource {
     @Path("lista")
     @Produces(MediaType.TEXT_XML)
     public ArrayList<Empresa> getAllCompaniesStatusBrowser() {
-        controle = new Controller();
-        return controle.getListaEmpresas();
+        return server.getAllCompaniesStatus();
     }
 
     // Return the list of todos for applications
@@ -47,18 +47,17 @@ public class BolsaResource {
     @Path("lista")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public ArrayList<Empresa> getAllCompaniesStatus() {
-        controle = new Controller();
-        return controle.getListaEmpresas();
+        return server.getAllCompaniesStatus();
     }
    
     // retuns the number of todos
     // use http://localhost:8084/de.vogella.jersey.todo/rest/todos/count
     // to get the total number of records
     @GET
-    @Path("count")
+    @Path("teste")
     @Produces(MediaType.TEXT_PLAIN)
     public String getCount() {
-        return String.valueOf(2);
+        return "Teste!";
     }
 /*    
     @POST
@@ -68,9 +67,9 @@ public class BolsaResource {
             @FormParam("cliente") ClientInterface client,
             @Context HttpServletResponse servletResponse) throws IOException {
         
-        return controle.getManagerFor(empresa.getID()).addOuvinte(client);
+        return server.listenToCompany(empresa, client);
     }
-*/
+
 
     @POST
     @Produces(MediaType.TEXT_HTML)
@@ -84,7 +83,7 @@ public class BolsaResource {
                 return controle.getManagerFor(operacao.getCompanyID()).addVenda(operacao);
         }
     }
-    
+*/    
     // Defines that the next path parameter after todos is
     // treated as a parameter and passed to the TodoResources
     // Allows to type http://localhost:8084/bolsa_web/rest/bolsa/PB568A
@@ -93,7 +92,7 @@ public class BolsaResource {
     @Path("{id}")
     public Empresa getCompanyForID(@PathParam("id") String id) {
         System.out.println(id);
-        CompanyManager manager = controle.getManagerFor(id);
+        CompanyManager manager = server.getControle().getManagerFor(id);
 
         if (manager != null) {
             return manager.getEmpresa();

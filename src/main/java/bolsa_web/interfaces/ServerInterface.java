@@ -15,7 +15,6 @@ import java.util.ArrayList;
  * @author Henriques
  */
 public interface ServerInterface{
-    public final static String SERVER_NAME = "Bolsa de Valores";
 
     // - Metodo que registra um novo cliente que tem interesse em ações de uma determinada empresa.
     public boolean listenToCompany(Empresa empresa, ClientInterface client);

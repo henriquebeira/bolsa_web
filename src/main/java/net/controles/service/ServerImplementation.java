@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package net.controles.service;
 
@@ -10,7 +5,6 @@ import bolsa_web.interfaces.ClientInterface;
 import bolsa_web.interfaces.ServerInterface;
 import bolsa_web.model.Empresa;
 import bolsa_web.model.Operacao;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import net.controles.simulador.SimuladorBolsa;
 
@@ -26,12 +20,19 @@ public class ServerImplementation implements ServerInterface {
     /**
      * Construtora da classe.
      * 
-     * @throws RemoteException 
      */
     public ServerImplementation() {
         controle = new Controller();
         simulador = new SimuladorBolsa(controle);
         simulador.start();
+        
+        System.out.println("!!!!!!!!!!!!!");
+        addEmpresa(new Empresa("PB568A").setName("PanBas").setValue(322));
+        addEmpresa(new Empresa("EA851A").setName("EACon").setValue(422));
+        addEmpresa(new Empresa("TB854A").setName("Tabuu").setValue(123));
+        addEmpresa(new Empresa("YU852A").setName("YoUi").setValue(273));
+        addEmpresa(new Empresa("RT652A").setName("RaTimbum").setValue(89));
+        addEmpresa(new Empresa("XM965A").setName("XMLinha").setValue(186));
         
     }
     
@@ -50,7 +51,6 @@ public class ServerImplementation implements ServerInterface {
      * @param empresa empresa que reberá o novo ouvinte
      * @param client cliente ouvinte
      * @return verdadeiro se a operação for bem sucedida, falso do contrário.
-     * @throws RemoteException 
      */
     public boolean listenToCompany(Empresa empresa, ClientInterface client){
         return controle.getManagerFor(empresa.getID()).addOuvinte(client);
@@ -61,7 +61,6 @@ public class ServerImplementation implements ServerInterface {
      * 
      * @param operacao nova operação
      * @return verdadeiro se for bem sucedido, falso do contrário.
-     * @throws RemoteException 
      */
     public boolean registerOperation(Operacao operacao){
         if(operacao.isCompra()){
@@ -75,30 +74,24 @@ public class ServerImplementation implements ServerInterface {
      * Retorna uma lista de todas as empresas cadastradas no servidor.
      * 
      * @return Lista de empresas disponíveis no servidor
-     * @throws RemoteException 
      */
     @Override
     public ArrayList<Empresa> getAllCompaniesStatus(){
         return controle.getListaEmpresas();
     }
     
-    /**
-     * Método de inicialização do servidor.
-     * 
-     * @param args 
-     */
-    public static void main(String ... args){
-        
-            ServerImplementation server = new ServerImplementation();
-            
-            server.addEmpresa(new Empresa("PB568A").setName("PanBas").setValue(322));
-            server.addEmpresa(new Empresa("EA851A").setName("EACon").setValue(422));
-            server.addEmpresa(new Empresa("TB854A").setName("Tabuu").setValue(123));
-            server.addEmpresa(new Empresa("YU852A").setName("YoUi").setValue(273));
-            server.addEmpresa(new Empresa("RT652A").setName("RaTimbum").setValue(89));
-            server.addEmpresa(new Empresa("XM965A").setName("XMLinha").setValue(186));
-            
-    }
+//    public static void main(String ... args){
+//        
+//        ServerImplementation server = new ServerImplementation();
+//            
+//        server.addEmpresa(new Empresa("PB568A").setName("PanBas").setValue(322));
+//        server.addEmpresa(new Empresa("EA851A").setName("EACon").setValue(422));
+//        server.addEmpresa(new Empresa("TB854A").setName("Tabuu").setValue(123));
+//        server.addEmpresa(new Empresa("YU852A").setName("YoUi").setValue(273));
+//        server.addEmpresa(new Empresa("RT652A").setName("RaTimbum").setValue(89));
+//        server.addEmpresa(new Empresa("XM965A").setName("XMLinha").setValue(186));
+//            
+//    }
 
     @Override
     public Empresa getCompanyForID(String ID){
@@ -110,4 +103,9 @@ public class ServerImplementation implements ServerInterface {
             return null;
         }
     }
+
+    public Controller getControle() {
+        return controle;
+    }
+    
 }
