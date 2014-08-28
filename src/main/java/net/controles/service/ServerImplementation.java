@@ -52,7 +52,9 @@ public class ServerImplementation implements ServerInterface {
      * @param client cliente ouvinte
      * @return verdadeiro se a operação for bem sucedida, falso do contrário.
      */
+    @Override
     public boolean listenToCompany(Empresa empresa, ClientInterface client){
+        System.out.println("! "+empresa.getName()+" !");
         return controle.getManagerFor(empresa.getID()).addOuvinte(client);
     }
 
@@ -62,6 +64,7 @@ public class ServerImplementation implements ServerInterface {
      * @param operacao nova operação
      * @return verdadeiro se for bem sucedido, falso do contrário.
      */
+    @Override
     public boolean registerOperation(Operacao operacao){
         if(operacao.isCompra()){
             return controle.getManagerFor(operacao.getCompanyID()).addCompra(operacao);

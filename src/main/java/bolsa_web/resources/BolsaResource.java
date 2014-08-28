@@ -56,34 +56,26 @@ public class BolsaResource {
     @GET
     @Path("teste")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getCount() {
+    public String teste() {
         return "Teste!";
     }
-/*    
+    
     @POST
-    @Produces(MediaType.TEXT_HTML)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public boolean listenToCompany(@FormParam("empresa") Empresa empresa,
-            @FormParam("cliente") ClientInterface client,
-            @Context HttpServletResponse servletResponse) throws IOException {
+    @Path("escutar")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public boolean listenToCompany(Empresa empresa, ClientInterface client) {
         
         return server.listenToCompany(empresa, client);
     }
 
-
     @POST
-    @Produces(MediaType.TEXT_HTML)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public boolean registerOperation(@FormParam("operacao") Operacao operacao,
-            @Context HttpServletResponse servletResponse) throws IOException {
+    @Path("registrar")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public boolean registerOperation(Operacao operacao) {
         
-        if (operacao.isCompra()) {
-                return controle.getManagerFor(operacao.getCompanyID()).addCompra(operacao);
-        } else {
-                return controle.getManagerFor(operacao.getCompanyID()).addVenda(operacao);
-        }
+        return server.registerOperation(operacao);
     }
-*/    
+    
     // Defines that the next path parameter after todos is
     // treated as a parameter and passed to the TodoResources
     // Allows to type http://localhost:8084/bolsa_web/rest/bolsa/PB568A
