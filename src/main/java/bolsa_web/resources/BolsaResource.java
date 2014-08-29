@@ -16,20 +16,22 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 import net.controles.service.ServerImplementation;
 
-// Will map the resource to the URL todos
+/*
+    Mapeamento dos recursos para a URL bolsa
+*/
 @Path("/bolsa")
 public class BolsaResource {
 
     ServerImplementation server = new ServerImplementation();
 
-    // Allows to insert contextual objects into the class, 
-    // e.g. ServletContext, Request, Response, UriInfo
-    @Context
-    UriInfo uriInfo;
-    @Context
-    Request request;
+// Allows to insert contextual objects into the class, 
+// e.g. ServletContext, Request, Response, UriInfo
+//    @Context
+//    UriInfo uriInfo;
+//    @Context
+//    Request request;
 
-    //Retorna uma lista de todas as empresas cadastradas no servidor.
+    // Retorna uma lista de todas as empresas cadastradas no servidor (Browser).
     @GET
     @Path("lista")
     @Produces(MediaType.TEXT_XML)
@@ -37,7 +39,7 @@ public class BolsaResource {
         return server.getAllCompaniesStatus();
     }
 
-    // Return the list of todos for applications
+    // Retorna uma lista de todas as empresas cadastradas no servidor (Aplicação).
     @GET
     @Path("lista")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -45,9 +47,7 @@ public class BolsaResource {
         return server.getAllCompaniesStatus();
     }
 
-    // retuns the number of todos
-    // use http://localhost:8084/de.vogella.jersey.todo/rest/todos/count
-    // to get the total number of records
+    // Método para testar a chamada URL
     @GET
     @Path("teste")
     @Produces(MediaType.TEXT_PLAIN)
@@ -55,6 +55,7 @@ public class BolsaResource {
         return "Teste!";
     }
 
+    // Metodo que registra um novo ouvinte a uma determinada empresa.
     @POST
     @Path("escutar")
     @Consumes({MediaType.APPLICATION_XML})
@@ -67,6 +68,7 @@ public class BolsaResource {
         return "False";
     }
 
+    // Registra uma nova operação de compra ou venda.
     @POST
     @Path("registrar")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -75,10 +77,7 @@ public class BolsaResource {
         return server.registerOperation(operacao);
     }
 
-    // Defines that the next path parameter after todos is
-    // treated as a parameter and passed to the TodoResources
-    // Allows to type http://localhost:8084/bolsa_web/rest/bolsa/PB568A
-    // 1 will be treaded as parameter todo and passed to TodoResource
+    // Retorna uma empresas cadastradas no servidor, através do seu ID (Aplicação).
     @GET
     @Path("{id}")
     public Empresa getCompanyForID(@PathParam("id") String id) {

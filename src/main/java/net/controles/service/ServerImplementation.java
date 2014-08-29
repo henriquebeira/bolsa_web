@@ -11,7 +11,7 @@ import net.controles.simulador.SimuladorBolsa;
 /**
  * Classe que implementa a interface do servidor.
  * 
- * @author Henriques
+ * @author Henrique
  */
 public class ServerImplementation implements ServerInterface {
     private SimuladorBolsa simulador;
@@ -96,6 +96,11 @@ public class ServerImplementation implements ServerInterface {
 //            
 //    }
 
+    /**
+     * Retorna uma empresa baseando-se no seu ID.
+     * @param ID da empresa.
+     * @return objeto com a Empresa.
+     */
     @Override
     public Empresa getCompanyForID(String ID){
         CompanyManager manager =  controle.getManagerFor(ID);
@@ -105,10 +110,6 @@ public class ServerImplementation implements ServerInterface {
         }else{
             return null;
         }
-    }
-
-    public Controller getControle() {
-        return controle;
     }
     
 }

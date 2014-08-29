@@ -1,5 +1,4 @@
 
-
 package bolsa_web.model;
 
 import bolsa_web.interfaces.ClientInterface;
@@ -12,7 +11,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Beans são classes que apenas possuem variáveis, construtora e metodos get/set;
  * @author henrique
  */
-@XmlRootElement
+
+@XmlRootElement //Mapeamento da classe para ser um elemento XML
 public class Operacao implements Serializable {
     
     private boolean isCompra;

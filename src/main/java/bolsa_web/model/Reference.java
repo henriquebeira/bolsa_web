@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package bolsa_web.model;
 
@@ -10,10 +5,12 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
+ * Bean para uma Referência. Beans são classes que apenas possuem variáveis, construtora e metodos get/set;
  *
  * @author henrique
  */
-@XmlRootElement
+
+@XmlRootElement //Mapeamento da classe para ser um elemento XML
 public class Reference implements Serializable{
     private String ip;
     private Integer port;
