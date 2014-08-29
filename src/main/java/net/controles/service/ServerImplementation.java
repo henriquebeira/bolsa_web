@@ -5,6 +5,7 @@ import bolsa_web.interfaces.ClientInterface;
 import bolsa_web.interfaces.ServerInterface;
 import bolsa_web.model.Empresa;
 import bolsa_web.model.Operacao;
+import bolsa_web.model.Reference;
 import java.util.ArrayList;
 import net.controles.simulador.SimuladorBolsa;
 
@@ -53,7 +54,7 @@ public class ServerImplementation implements ServerInterface {
      * @return verdadeiro se a operação for bem sucedida, falso do contrário.
      */
     @Override
-    public boolean listenToCompany(Empresa empresa, ClientInterface client){
+    public boolean listenToCompany(Empresa empresa, Reference client){
         System.out.println("! "+empresa.getName()+" !");
         return controle.getManagerFor(empresa.getID()).addOuvinte(client);
     }

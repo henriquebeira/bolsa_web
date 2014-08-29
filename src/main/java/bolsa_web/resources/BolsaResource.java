@@ -3,6 +3,7 @@ package bolsa_web.resources;
 import bolsa_web.interfaces.ClientInterface;
 import bolsa_web.model.Empresa;
 import bolsa_web.model.Operacao;
+import bolsa_web.model.Reference;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletResponse;
@@ -63,9 +64,9 @@ public class BolsaResource {
     @POST
     @Path("escutar")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public boolean listenToCompany(Empresa empresa, ClientInterface client) {
+    public boolean listenToCompany(Empresa empresa, Reference ref) {
         
-        return server.listenToCompany(empresa, client);
+        return server.listenToCompany(empresa, ref);
     }
 
     @POST

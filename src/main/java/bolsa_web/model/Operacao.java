@@ -18,7 +18,7 @@ public class Operacao implements Serializable {
     private boolean isCompra;
     private String companyID;
     private Integer quantidade;
-    private Integer preçoUnitarioDesejado;
+    private Integer precoUnitarioDesejado;
     private Calendar expireDate;
     
     private ClientInterface clientSign;
@@ -51,12 +51,12 @@ public class Operacao implements Serializable {
         return this;
     }
 
-    public Integer getPreçoUnitarioDesejado() {
-        return preçoUnitarioDesejado;
+    public Integer getPrecoUnitarioDesejado() {
+        return precoUnitarioDesejado;
     }
 
-    public Operacao setPreçoUnitarioDesejado(Integer preçoUnitárioDesejado) {
-        this.preçoUnitarioDesejado = preçoUnitárioDesejado;
+    public Operacao setPrecoUnitarioDesejado(Integer preçoUnitárioDesejado) {
+        this.precoUnitarioDesejado = preçoUnitárioDesejado;
         
         return this;
     }
