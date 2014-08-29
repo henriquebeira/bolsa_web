@@ -258,17 +258,24 @@ public class CompanyManager {
     private void notifyUpdate() {
         ArrayList<Reference> remove = new ArrayList<>();
 
-        System.out.println("Notifing");
+//        System.out.println("Notifing");
         
         for (Reference ouvinte : ouvintes) {
-            System.out.println("Has some");
+            String params = ";id$"+empresa.getID()+";value$" + empresa.getValue()+"";
+            String url_ = "http://"+ouvinte.getIp()+":"+ ouvinte.getPort() + "/update/" + params ;
+            System.out.println("Has some to: " + url_);
             try {
-                URL url = new URL("http://" + ouvinte.getIp() + ":" + ouvinte.getPort() + "/update/"); // 
+                URL url = new URL(url_); // 
+                System.out.println("Try open");
                 URLConnection uc = url.openConnection();
+                System.out.println("Connection Open");
                 HttpURLConnection conn = (HttpURLConnection) uc;
-                conn.setDoInput(false);
+                conn.setDoInput(true);
                 conn.setDoOutput(true);
                 conn.setRequestMethod("POST");
+                System.out.println("Method Accepted");
+                
+                
                 conn.setUseCaches(false);
                 conn.setAllowUserInteraction(false);
                 conn.setRequestProperty("Content-Type",
@@ -277,23 +284,31 @@ public class CompanyManager {
                 System.out.println("Send info to: " + "http://" + ouvinte.getIp() + ":" + ouvinte.getPort() + ""); // /update/
 
                 // Create the form content
-                OutputStream out = conn.getOutputStream();
-                Writer writer = new OutputStreamWriter(out, "UTF-8");
-                String[] paramName = new String[]{"id", "value"};
-                String[] paramVal = new String[]{empresa.getID(), empresa.getValue().toString()};
-                for (int i = 0; i < paramName.length; i++) {
-                    writer.write(paramName[i]);
-                    writer.write("=");
-                    writer.write(URLEncoder.encode(paramVal[i], "UTF-8"));
-                    writer.write("&");
-                }
-                writer.close();
-                out.close();
+//                OutputStream out = conn.getOutputStream();
+//                System.out.println("Got outputstream");
+//                Writer writer = new OutputStreamWriter(out, "UTF-8");
+//                System.out.println("Whriter opened");
+//                
+//                writer.write(params);
+//                writer.flush();
+                
+                int resp = conn.getResponseCode();
+                System.out.println("Resp" + resp);
+//                String[] paramName = new String[]{"id", "value"};
+//                String[] paramVal = new String[]{empresa.getID(), empresa.getValue().toString()};
+//                for (int i = 0; i < paramName.length; i++) {
+//                    writer.write(paramName[i]);
+//                    writer.write("=");
+//                    writer.write(URLEncoder.encode(paramVal[i], "UTF-8"));
+//                    writer.write("&");
+//                }
+//                writer.close();
+//                out.close();
 
                 conn.disconnect();
             } catch (IOException io) {
-                System.out.println("Notify ERROR");
-                io.printStackTrace();
+//                System.out.println("Notify ERROR");
+//                io.printStackTrace();
             }
             //try {
 //            ouvinte.notifyUpdate(empresa);
