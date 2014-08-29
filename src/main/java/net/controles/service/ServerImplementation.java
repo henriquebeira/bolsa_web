@@ -1,7 +1,6 @@
 
 package net.controles.service;
 
-import bolsa_web.interfaces.ClientInterface;
 import bolsa_web.interfaces.ServerInterface;
 import bolsa_web.model.Empresa;
 import bolsa_web.model.Operacao;

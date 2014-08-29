@@ -6,6 +6,7 @@
 
 package bolsa_web.model;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -13,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author henrique
  */
 @XmlRootElement
-public class Reference {
+public class Reference implements Serializable{
     private String ip;
     private Integer port;
 
@@ -32,4 +33,11 @@ public class Reference {
     public void setPort(Integer port) {
         this.port = port;
     }
+
+    @Override
+    public String toString() {
+        return ip+":"+port;
+    }
+    
+    
 }

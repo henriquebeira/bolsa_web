@@ -19,7 +19,7 @@ public class Operacao implements Serializable {
     private String companyID;
     private Integer quantidade;
     private Integer precoUnitarioDesejado;
-    private Calendar expireDate;
+//    private Calendar expireDate;
     
     private ClientInterface clientSign;
 
@@ -31,14 +31,14 @@ public class Operacao implements Serializable {
         this.isCompra = operacaoToClone.isCompra;
         this.clientSign = operacaoToClone.clientSign;
         this.companyID = operacaoToClone.companyID;
-        this.expireDate = operacaoToClone.expireDate;
+//        this.expireDate = operacaoToClone.expireDate;
     }
     
     public Operacao(boolean isCompra, String company, Calendar expireDate, ClientInterface client) {
         this.isCompra = isCompra;
         this.clientSign = client;
         this.companyID = company;
-        this.expireDate = expireDate;
+//        this.expireDate = expireDate;
     }
 
     public Integer getQuantidade() {
@@ -73,9 +73,9 @@ public class Operacao implements Serializable {
         return companyID;
     }
 
-    public Calendar getExpireDate() {
-        return expireDate;
-    }
+//    public Calendar getExpireDate() {
+//        return expireDate;
+//    }
     
     
 }

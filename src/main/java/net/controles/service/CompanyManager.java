@@ -3,11 +3,14 @@ package net.controles.service;
 import bolsa_web.model.Empresa;
 import bolsa_web.model.Operacao;
 import bolsa_web.model.Reference;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -244,6 +247,7 @@ public class CompanyManager {
      * @return verdadeiro se a adição for bem sucedida, falso do contrário.
      */
     public boolean addOuvinte(Reference ouvinte) {
+        System.out.println("Received Ouvinte: " + ouvinte);
         return ouvintes.add(ouvinte);
     }
 
@@ -254,27 +258,42 @@ public class CompanyManager {
     private void notifyUpdate() {
         ArrayList<Reference> remove = new ArrayList<>();
 
+        System.out.println("Notifing");
+        
         for (Reference ouvinte : ouvintes) {
+            System.out.println("Has some");
             try {
-                URL url = new URL("http://" + ouvinte.getIp() + ":" + ouvinte.getPort() + "/update/");
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                URL url = new URL("http://" + ouvinte.getIp() + ":" + ouvinte.getPort() + "/update/"); // 
+                URLConnection uc = url.openConnection();
+                HttpURLConnection conn = (HttpURLConnection) uc;
+                conn.setDoInput(false);
+                conn.setDoOutput(true);
+                conn.setRequestMethod("POST");
+                conn.setUseCaches(false);
+                conn.setAllowUserInteraction(false);
+                conn.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded");
+                
+                System.out.println("Send info to: " + "http://" + ouvinte.getIp() + ":" + ouvinte.getPort() + ""); // /update/
 
-                if (conn.getResponseCode() != 200) {
-                    continue;
+                // Create the form content
+                OutputStream out = conn.getOutputStream();
+                Writer writer = new OutputStreamWriter(out, "UTF-8");
+                String[] paramName = new String[]{"id", "value"};
+                String[] paramVal = new String[]{empresa.getID(), empresa.getValue().toString()};
+                for (int i = 0; i < paramName.length; i++) {
+                    writer.write(paramName[i]);
+                    writer.write("=");
+                    writer.write(URLEncoder.encode(paramVal[i], "UTF-8"));
+                    writer.write("&");
                 }
-
-                // Buffer the result into a string
-                BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                StringBuilder sb = new StringBuilder();
-                String line;
-                while ((line = rd.readLine()) != null) {
-                    sb.append(line);
-                }
-                rd.close();
+                writer.close();
+                out.close();
 
                 conn.disconnect();
             } catch (IOException io) {
-
+                System.out.println("Notify ERROR");
+                io.printStackTrace();
             }
             //try {
 //            ouvinte.notifyUpdate(empresa);
@@ -316,13 +335,13 @@ public class CompanyManager {
     }
 
     boolean hasExpired(Operacao consult) {
-        Calendar today = Calendar.getInstance();
-        Calendar opDate = consult.getExpireDate();
-
-        today.set(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH), 01, 0, 0);
-        opDate.set(opDate.get(opDate.YEAR), opDate.get(opDate.MONTH), opDate.get(opDate.DAY_OF_MONTH), 23, 0, 0);
-
-        return opDate.before(today);
-
+//        Calendar today = Calendar.getInstance();
+//        Calendar opDate = consult.getExpireDate();
+//
+//        today.set(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH), 01, 0, 0);
+//        opDate.set(opDate.get(opDate.YEAR), opDate.get(opDate.MONTH), opDate.get(opDate.DAY_OF_MONTH), 23, 0, 0);
+//
+//        return opDate.before(today);
+        return false;
     }
 }
