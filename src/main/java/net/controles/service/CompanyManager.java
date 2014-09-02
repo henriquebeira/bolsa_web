@@ -122,9 +122,12 @@ public class CompanyManager {
                     //Notifica o comprador e o vendedor
                     Operacao compraN = new Operacao(compra).setPreco(mediaPreco).setQuantidade(quantidade);
                     Operacao vendaN = new Operacao(venda).setPreco(mediaPreco).setQuantidade(quantidade);
+                    
+                    System.out.println("Comprador: " + compra.getReferencia());
+                    System.out.println("Vendedor: " + venda.getReferencia());
 
-                    if (notifyCompletion(vendaN.getReferencia(), vendaN, false)) {
-                        notifyCompletion(compraN.getReferencia(), compraN, true);
+                    if (notifyCompletion(venda.getReferencia(), vendaN, false)) {
+                        notifyCompletion(compra.getReferencia(), compraN, true);
                     } else {
                         continue;
                     }
@@ -199,8 +202,8 @@ public class CompanyManager {
                     Operacao vendaN = new Operacao(venda).setPreco(mediaPreco).setQuantidade(quantidade);
 
 
-                    if (notifyCompletion(compraN.getReferencia(), compraN, false)) {
-                        notifyCompletion(vendaN.getReferencia(), vendaN, true);
+                    if (notifyCompletion(compraN.getReferencia(), compraN, true)) {
+                        notifyCompletion(vendaN.getReferencia(), vendaN, false);
                     } else {
                         continue;
                     }
@@ -282,7 +285,7 @@ public class CompanyManager {
 
             conn.disconnect();
             
-            return resp < 300;
+            return true;
             
         } catch (IOException io) {
         }
