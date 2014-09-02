@@ -22,16 +22,20 @@ public class Reference implements Serializable{
         return ip;
     }
 
-    public void setIp(String ip) {
+    public Reference setIp(String ip) {
         this.ip = ip;
+        
+        return this;
     }
 
     public Integer getPort() {
         return port;
     }
 
-    public void setPort(Integer port) {
+    public Reference setPort(Integer port) {
         this.port = port;
+        
+        return this;
     }
 
     @Override

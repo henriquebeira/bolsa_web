@@ -1,8 +1,5 @@
-
-
 package bolsa_web.model;
 
-import bolsa_web.interfaces.ClientInterface;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -15,13 +12,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Operacao implements Serializable {
     
-    private boolean isCompra;
+    private String isCompra;
     private String companyID;
     private Integer quantidade;
-    private Integer precoUnitarioDesejado;
+    private Integer preco;
+    private Reference referencia;
 //    private Calendar expireDate;
     
-    private ClientInterface clientSign;
+//    private ClientInterface clientSign;
 
     public Operacao() {
         
@@ -29,16 +27,34 @@ public class Operacao implements Serializable {
     
     public Operacao(Operacao operacaoToClone){
         this.isCompra = operacaoToClone.isCompra;
-        this.clientSign = operacaoToClone.clientSign;
+        this.referencia = operacaoToClone.referencia;
         this.companyID = operacaoToClone.companyID;
 //        this.expireDate = operacaoToClone.expireDate;
     }
     
-    public Operacao(boolean isCompra, String company, Calendar expireDate, ClientInterface client) {
-        this.isCompra = isCompra;
-        this.clientSign = client;
+    public Operacao(boolean isCompra, String company) {
+        this.isCompra = isCompra+"";
+//        this.clientSign = client;
         this.companyID = company;
 //        this.expireDate = expireDate;
+    }
+
+    public String getIsCompra() {
+        return isCompra;
+    }
+
+    public Operacao setIsCompra(String isCompra) {
+        this.isCompra = isCompra;
+        return this;
+    }
+
+    public String getCompanyID() {
+        return companyID;
+    }
+
+    public Operacao setCompanyID(String companyID) {
+        this.companyID = companyID;
+        return this;
     }
 
     public Integer getQuantidade() {
@@ -47,35 +63,36 @@ public class Operacao implements Serializable {
 
     public Operacao setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
-        
         return this;
     }
 
-    public Integer getPrecoUnitarioDesejado() {
-        return precoUnitarioDesejado;
+    public Integer getPreco() {
+        return preco;
     }
 
-    public Operacao setPrecoUnitarioDesejado(Integer preçoUnitárioDesejado) {
-        this.precoUnitarioDesejado = preçoUnitárioDesejado;
-        
+    public Operacao setPreco(Integer preco) {
+        this.preco = preco;
         return this;
     }
 
-    public boolean isCompra() {
-        return isCompra;
+    public Reference getReferencia() {
+        return referencia;
     }
 
-    public ClientInterface getClientSign() {
-        return clientSign;
-    }
-
-    public String getCompanyID() {
-        return companyID;
+    public Operacao setReferencia(Reference referencia) {
+        this.referencia = referencia;
+        
+        return this;
     }
 
 //    public Calendar getExpireDate() {
 //        return expireDate;
 //    }
+
+    @Override
+    public String toString() {
+        return companyID + ":" + isCompra + " - " + quantidade + " - $" + preco;
+    }
     
     
 }

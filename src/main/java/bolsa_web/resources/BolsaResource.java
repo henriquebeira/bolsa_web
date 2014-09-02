@@ -2,7 +2,9 @@ package bolsa_web.resources;
 
 import bolsa_web.model.Empresa;
 import bolsa_web.model.Operacao;
+import bolsa_web.model.Reference;
 import bolsa_web.model.Wrapper;
+import com.sun.jersey.spi.resource.Singleton;
 import java.util.ArrayList;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -18,9 +20,11 @@ import net.controles.service.ServerImplementation;
 
 // Will map the resource to the URL todos
 @Path("/bolsa")
+@Singleton
 public class BolsaResource {
 
     ServerImplementation server = new ServerImplementation();
+    Integer inte = 0;
 
     // Allows to insert contextual objects into the class, 
     // e.g. ServletContext, Request, Response, UriInfo
@@ -50,9 +54,9 @@ public class BolsaResource {
     // to get the total number of records
     @GET
     @Path("teste")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String teste() {
-        return "Teste!";
+    @Produces(MediaType.APPLICATION_XML)
+    public Operacao teste() {
+        return new Operacao(true, "EA1234").setPreco(++inte).setQuantidade(10).setReferencia(new Reference().setIp("local").setPort(555));
     }
 
     @POST
@@ -69,10 +73,15 @@ public class BolsaResource {
 
     @POST
     @Path("registrar")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public boolean registerOperation(Operacao operacao) {
+    @Consumes({MediaType.APPLICATION_XML})
+    public String registerOperation(Operacao operacao) {
+        System.out.println("Oper: " + operacao);
 
-        return server.registerOperation(operacao);
+        if (server.registerOperation(operacao)){
+            return "True";
+        }
+        
+        return "False";
     }
 
     // Defines that the next path parameter after todos is

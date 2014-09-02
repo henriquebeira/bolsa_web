@@ -4,15 +4,10 @@ import bolsa_web.model.Empresa;
 import bolsa_web.model.Operacao;
 import bolsa_web.model.Reference;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * Classe que encapsula o Bean Empresa para disponibilizar mecanismos de
@@ -63,7 +58,7 @@ public class CompanyManager {
      * @return verdadeiro se a operação tiver sucesso, ou falso do contrário.
      */
     public boolean addCompra(Operacao compra) {
-        if (compra.isCompra()) { // Se for uma operação de compra
+        if (compra.getIsCompra().equalsIgnoreCase("true")) { // Se for uma operação de compra
 //            if (!matchBuy(compra)) { // Se a operação de compra não possuir uma operação de venda compatível aguardando
 //                compras.add(compra); // Adiciona à fila de espera
 //            }
@@ -84,7 +79,7 @@ public class CompanyManager {
      * @return verdadeiro se a operação tiver sucesso, ou false do contrário.
      */
     public boolean addVenda(Operacao venda) {
-        if (!venda.isCompra()) {
+        if (!venda.getIsCompra().equalsIgnoreCase("true")) {
 //            if (!matchSell(venda)) {
 //                vendas.add(venda);
 //            }
@@ -108,29 +103,31 @@ public class CompanyManager {
      * falso do contrário.
      */
     private boolean matchBuy(Operacao compra) {
-        if (hasExpired(compra)) {
-            System.out.println("Já expirou!");
-            return false;
-        }
+//        if (hasExpired(compra)) {
+//            System.out.println("Já expirou!");
+//            return false;
+//        }
 
         ArrayList<Operacao> rem = new ArrayList<>();
+        
+        System.out.println("Size of vendas: " + vendas.size());
 
         for (Operacao venda : vendas) {
-            if (!hasExpired(venda)) {
-                if (compra.getPrecoUnitarioDesejado() >= venda.getPrecoUnitarioDesejado()) {
+//            if (!hasExpired(venda)) {
+                if (compra.getPreco() >= venda.getPreco()) {
                     int quantidade = Math.min(compra.getQuantidade(), venda.getQuantidade());
-                    int mediaPreco = (compra.getPrecoUnitarioDesejado() + venda.getPrecoUnitarioDesejado()) / 2;
+                    int mediaPreco = (compra.getPreco() + venda.getPreco()) / 2;
 
                     //Notifica o comprador e o vendedor
-                    Operacao compraN = new Operacao(compra).setPrecoUnitarioDesejado(mediaPreco).setQuantidade(quantidade);
-                    Operacao vendaN = new Operacao(venda).setPrecoUnitarioDesejado(mediaPreco).setQuantidade(quantidade);
+                    Operacao compraN = new Operacao(compra).setPreco(mediaPreco).setQuantidade(quantidade);
+                    Operacao vendaN = new Operacao(venda).setPreco(mediaPreco).setQuantidade(quantidade);
 
-                    if (venda.getClientSign().notifyCompletedOperation(vendaN)) {
-                        compra.getClientSign().notifyCompletedOperation(compraN);
+                    if (notifyCompletion(vendaN.getReferencia(), vendaN, false)) {
+                        notifyCompletion(compraN.getReferencia(), compraN, true);
                     } else {
                         continue;
                     }
-
+                    
                     if (venda.getQuantidade() > quantidade) {
                         venda.setQuantidade(venda.getQuantidade() - quantidade);
                         System.out.println("Sobrou na venda: " + venda.getQuantidade());
@@ -148,9 +145,9 @@ public class CompanyManager {
                         }
                     }
                 }
-            } else {
-                rem.add(venda);
-            }
+//            } else {
+//                rem.add(venda);
+//            }
         }
 
         if (compra.getQuantidade() != 0) {
@@ -180,27 +177,33 @@ public class CompanyManager {
      * falso do contrário.
      */
     private boolean matchSell(Operacao venda) {
-        if (hasExpired(venda)) {
-            System.out.println("Já expirou!");
-            return false;
-        }
+//        if (hasExpired(venda)) {
+//            System.out.println("Já expirou!");
+//            return false;
+//        }
 
         ArrayList<Operacao> rem = new ArrayList<>();
+        
+        System.out.println("Compras size: " + compras.size());
 
         for (Operacao compra : compras) {
-            System.out.println("Fila: " + compras.size() + " !| " + compra.getCompanyID() + ", " + compra.getQuantidade() + ", " + compra.getPrecoUnitarioDesejado());
-            if (!hasExpired(compra)) {
-                if (venda.getPrecoUnitarioDesejado() <= compra.getPrecoUnitarioDesejado()) {
+            System.out.println("Fila: " + compras.size() + " !| " + compra.getCompanyID() + ", " + compra.getQuantidade() + ", " + compra.getPreco());
+//            if (!hasExpired(compra)) {
+                if (venda.getPreco() <= compra.getPreco()) {
                     int quantidade = Math.min(venda.getQuantidade(), compra.getQuantidade());
-                    int mediaPreco = (venda.getPrecoUnitarioDesejado() + compra.getPrecoUnitarioDesejado()) / 2;
+                    int mediaPreco = (venda.getPreco() + compra.getPreco()) / 2;
 
                     //Notifica o comprador e o vendedor
-                    Operacao compraN = new Operacao(compra).setPrecoUnitarioDesejado(mediaPreco).setQuantidade(quantidade);
-                    Operacao vendaN = new Operacao(venda).setPrecoUnitarioDesejado(mediaPreco).setQuantidade(quantidade);
+                    Operacao compraN = new Operacao(compra).setPreco(mediaPreco).setQuantidade(quantidade);
+                    Operacao vendaN = new Operacao(venda).setPreco(mediaPreco).setQuantidade(quantidade);
 
-                    compra.getClientSign().notifyCompletedOperation(compraN);
-                    venda.getClientSign().notifyCompletedOperation(vendaN);
 
+                    if (notifyCompletion(compraN.getReferencia(), compraN, false)) {
+                        notifyCompletion(vendaN.getReferencia(), vendaN, true);
+                    } else {
+                        continue;
+                    }
+                    
                     if (compra.getQuantidade() > quantidade) {
                         compra.setQuantidade(compra.getQuantidade() - quantidade);
                         System.out.println("Sobrou na compra: " + compra.getQuantidade());
@@ -219,14 +222,14 @@ public class CompanyManager {
                         }
                     }
                 }
-            } else {
-                rem.add(compra);
-            }
+//            } else {
+//                rem.add(compra);
+//            }
         }
 
         if (venda.getQuantidade() != 0) {
             System.out.println("Guardou a sobra da venda: " + venda.getQuantidade());
-            vendas.add(venda);
+            System.out.println(vendas.add(venda));
         }
 
         if (!rem.isEmpty()) {
@@ -251,6 +254,41 @@ public class CompanyManager {
         return ouvintes.add(ouvinte);
     }
 
+    private boolean notifyCompletion(Reference ref, Operacao oper, boolean compra) {
+        String params = ";id$" + oper.getCompanyID() + ";compra$" + compra + ";price$" + oper.getPreco() + ";quant$" + oper.getQuantidade();
+        String url_ = "http://" + ref.getIp() + ":" + ref.getPort() + "/complete/" + params;
+        System.out.println("Has some to: " + url_);
+        try {
+            URL url = new URL(url_); // 
+            System.out.println("Try open");
+            URLConnection uc = url.openConnection();
+            System.out.println("Connection Open");
+            HttpURLConnection conn = (HttpURLConnection) uc;
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            System.out.println("Method Accepted");
+
+            conn.setUseCaches(false);
+            conn.setAllowUserInteraction(false);
+            conn.setRequestProperty("Content-Type",
+                    "application/x-www-form-urlencoded");
+
+            System.out.println("Send info to: " + "http://" + ref.getIp() + ":" + ref.getPort() + ""); // /update/
+
+            int resp = conn.getResponseCode();
+            System.out.println("Resp" + resp);
+
+            conn.disconnect();
+            
+            return resp < 300;
+            
+        } catch (IOException io) {
+        }
+
+        return false;
+    }
+
     /**
      * Método responsável por notificar os clientes ouvintes que uma alteração
      * na empresa encapsulada foi realizada.
@@ -259,29 +297,28 @@ public class CompanyManager {
         ArrayList<Reference> remove = new ArrayList<>();
 
 //        System.out.println("Notifing");
+        String params = ";id$" + empresa.getID() + ";value$" + empresa.getValue() + "";
         
         for (Reference ouvinte : ouvintes) {
-            String params = ";id$"+empresa.getID()+";value$" + empresa.getValue()+"";
-            String url_ = "http://"+ouvinte.getIp()+":"+ ouvinte.getPort() + "/update/" + params ;
+            String url_ = "http://" + ouvinte.getIp() + ":" + ouvinte.getPort() + "/update/" + params;
             System.out.println("Has some to: " + url_);
             try {
                 URL url = new URL(url_); // 
-                System.out.println("Try open");
+//                System.out.println("Try open");
                 URLConnection uc = url.openConnection();
-                System.out.println("Connection Open");
+//                System.out.println("Connection Open");
                 HttpURLConnection conn = (HttpURLConnection) uc;
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
                 conn.setRequestMethod("POST");
-                System.out.println("Method Accepted");
-                
-                
+//                System.out.println("Method Accepted");
+
                 conn.setUseCaches(false);
                 conn.setAllowUserInteraction(false);
                 conn.setRequestProperty("Content-Type",
                         "application/x-www-form-urlencoded");
-                
-                System.out.println("Send info to: " + "http://" + ouvinte.getIp() + ":" + ouvinte.getPort() + ""); // /update/
+
+//                System.out.println("Send info to: " + "http://" + ouvinte.getIp() + ":" + ouvinte.getPort() + ""); // /update/
 
                 // Create the form content
 //                OutputStream out = conn.getOutputStream();
@@ -291,9 +328,8 @@ public class CompanyManager {
 //                
 //                writer.write(params);
 //                writer.flush();
-                
                 int resp = conn.getResponseCode();
-                System.out.println("Resp" + resp);
+//                System.out.println("Resp" + resp);
 //                String[] paramName = new String[]{"id", "value"};
 //                String[] paramVal = new String[]{empresa.getID(), empresa.getValue().toString()};
 //                for (int i = 0; i < paramName.length; i++) {

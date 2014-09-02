@@ -66,10 +66,15 @@ public class ServerImplementation implements ServerInterface {
      */
     @Override
     public boolean registerOperation(Operacao operacao){
-        if(operacao.isCompra()){
-            return controle.getManagerFor(operacao.getCompanyID()).addCompra(operacao);
+        CompanyManager manager = controle.getManagerFor(operacao.getCompanyID());
+        if(manager == null){
+            return false;
+        }
+        
+        if(operacao.getIsCompra().equalsIgnoreCase("true")){
+            return manager.addCompra(operacao);
         }else{
-            return controle.getManagerFor(operacao.getCompanyID()).addVenda(operacao);
+            return manager.addVenda(operacao);
         }
     }
 
