@@ -5,12 +5,11 @@ import java.util.Calendar;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Bean para uma Operação. Beans são classes que apenas possuem variáveis,
- * construtora e metodos get/set;
- *
+ * Bean para uma Operação.
+ * Beans são classes que apenas possuem variáveis, construtora e metodos get/set;
  * @author henrique
  */
-@XmlRootElement //Mapeamento da classe para ser um elemento XML
+@XmlRootElement
 public class Operacao implements Serializable {
 
     private String isCompra;
