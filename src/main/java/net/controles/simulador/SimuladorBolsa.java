@@ -6,7 +6,7 @@ import net.controles.service.Controller;
 /**
  * Thread para realizar a flutuação do valor das ações.
  * 
- * @author Henriques
+ * @author Henrique
  */
 public class SimuladorBolsa extends Thread {
 

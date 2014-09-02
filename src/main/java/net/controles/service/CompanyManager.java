@@ -1,3 +1,4 @@
+
 package net.controles.service;
 
 import bolsa_web.model.Empresa;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  * Classe que encapsula o Bean Empresa para disponibilizar mecanismos de
  * controle para o servidor.
  *
- * @author Henriques
+ * @author Henrique
  */
 public class CompanyManager {
 

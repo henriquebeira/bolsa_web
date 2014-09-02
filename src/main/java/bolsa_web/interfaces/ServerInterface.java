@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package bolsa_web.interfaces;
 
@@ -12,8 +7,8 @@ import bolsa_web.model.Reference;
 import java.util.ArrayList;
 
 /**
- * Interface para o servidor JRMI.
- * @author Henriques
+ * Interface para o servidor.
+ * @author Henrique
  */
 public interface ServerInterface{
 

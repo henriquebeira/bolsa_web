@@ -5,8 +5,8 @@ import bolsa_web.model.Empresa;
 import bolsa_web.model.Operacao;
 
 /**
- * Interface para o cliente JRMI
- * @author Henriques
+ * Interface para o cliente
+ * @author Henrique
  */
 public interface ClientInterface {
 

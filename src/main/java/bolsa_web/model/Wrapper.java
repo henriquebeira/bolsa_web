@@ -2,7 +2,13 @@ package bolsa_web.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+/**
+ * Bean para uma Wrapper.
+ * Beans são classes que apenas possuem variáveis, construtora e metodos get/set;
+ * @author henrique
+ */
+
+@XmlRootElement //Mapeamento da classe para ser um elemento XML
 public class Wrapper {
 
     private Empresa empresa;
