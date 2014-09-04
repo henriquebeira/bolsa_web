@@ -127,6 +127,7 @@ public class CompanyManager {
                     System.out.println("Vendedor: " + venda.getReferencia());
 
                     if (notifyCompletion(venda.getReferencia(), vendaN, false)) {
+                        System.out.println("Notify Compra");
                         notifyCompletion(compra.getReferencia(), compraN, true);
                     } else {
                         continue;
@@ -203,6 +204,7 @@ public class CompanyManager {
 
 
                     if (notifyCompletion(compraN.getReferencia(), compraN, true)) {
+                        System.out.println("Notify Venda");
                         notifyCompletion(vendaN.getReferencia(), vendaN, false);
                     } else {
                         continue;
@@ -278,7 +280,7 @@ public class CompanyManager {
             conn.setRequestProperty("Content-Type",
                     "application/x-www-form-urlencoded");
 
-            System.out.println("Send info to: " + "http://" + ref.getIp() + ":" + ref.getPort() + ""); // /update/
+//            System.out.println("Send info to: " + "http://" + ref.getIp() + ":" + ref.getPort() + ""); // /update/
 
             int resp = conn.getResponseCode();
             System.out.println("Resp" + resp);
@@ -288,6 +290,7 @@ public class CompanyManager {
             return true;
             
         } catch (IOException io) {
+            io.printStackTrace();
         }
 
         return false;
@@ -305,7 +308,7 @@ public class CompanyManager {
         
         for (Reference ouvinte : ouvintes) {
             String url_ = "http://" + ouvinte.getIp() + ":" + ouvinte.getPort() + "/update/" + params;
-            System.out.println("Has some to: " + url_);
+//            System.out.println("Has some to: " + url_);
             try {
                 URL url = new URL(url_); // 
 //                System.out.println("Try open");
