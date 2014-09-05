@@ -3,7 +3,7 @@ package bolsa_web.model;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Bean para uma Wrapper.
+ * Bean para uma Wrapper. Classe utilizada para a construção de dois objetos.
  * Beans são classes que apenas possuem variáveis, construtora e metodos get/set;
  * @author henrique
  */

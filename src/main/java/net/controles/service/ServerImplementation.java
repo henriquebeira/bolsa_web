@@ -87,19 +87,6 @@ public class ServerImplementation implements ServerInterface {
     public ArrayList<Empresa> getAllCompaniesStatus(){
         return controle.getListaEmpresas();
     }
-    
-//    public static void main(String ... args){
-//        
-//        ServerImplementation server = new ServerImplementation();
-//            
-//        server.addEmpresa(new Empresa("PB568A").setName("PanBas").setValue(322));
-//        server.addEmpresa(new Empresa("EA851A").setName("EACon").setValue(422));
-//        server.addEmpresa(new Empresa("TB854A").setName("Tabuu").setValue(123));
-//        server.addEmpresa(new Empresa("YU852A").setName("YoUi").setValue(273));
-//        server.addEmpresa(new Empresa("RT652A").setName("RaTimbum").setValue(89));
-//        server.addEmpresa(new Empresa("XM965A").setName("XMLinha").setValue(186));
-//            
-//    }
 
     /**
      * Retorna uma empresa baseando-se no seu ID.

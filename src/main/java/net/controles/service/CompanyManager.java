@@ -60,10 +60,6 @@ public class CompanyManager {
      */
     public boolean addCompra(Operacao compra) {
         if (compra.getIsCompra().equalsIgnoreCase("true")) { // Se for uma operação de compra
-//            if (!matchBuy(compra)) { // Se a operação de compra não possuir uma operação de venda compatível aguardando
-//                compras.add(compra); // Adiciona à fila de espera
-//            }
-
             matchBuy(compra);
 
             return true;
@@ -81,10 +77,6 @@ public class CompanyManager {
      */
     public boolean addVenda(Operacao venda) {
         if (!venda.getIsCompra().equalsIgnoreCase("true")) {
-//            if (!matchSell(venda)) {
-//                vendas.add(venda);
-//            }
-
             matchSell(venda);
 
             return true;
@@ -104,17 +96,13 @@ public class CompanyManager {
      * falso do contrário.
      */
     private boolean matchBuy(Operacao compra) {
-//        if (hasExpired(compra)) {
-//            System.out.println("Já expirou!");
-//            return false;
-//        }
 
         ArrayList<Operacao> rem = new ArrayList<>();
         
         System.out.println("Size of vendas: " + vendas.size());
 
         for (Operacao venda : vendas) {
-//            if (!hasExpired(venda)) {
+
                 if (compra.getPreco() >= venda.getPreco()) {
                     int quantidade = Math.min(compra.getQuantidade(), venda.getQuantidade());
                     int mediaPreco = (compra.getPreco() + venda.getPreco()) / 2;
@@ -182,10 +170,6 @@ public class CompanyManager {
      * falso do contrário.
      */
     private boolean matchSell(Operacao venda) {
-//        if (hasExpired(venda)) {
-//            System.out.println("Já expirou!");
-//            return false;
-//        }
 
         ArrayList<Operacao> rem = new ArrayList<>();
         
@@ -303,50 +287,24 @@ public class CompanyManager {
     private void notifyUpdate() {
         ArrayList<Reference> remove = new ArrayList<>();
 
-//        System.out.println("Notifing");
         String params = ";id$" + empresa.getID() + ";value$" + empresa.getValue() + "";
         
         for (Reference ouvinte : ouvintes) {
             String url_ = "http://" + ouvinte.getIp() + ":" + ouvinte.getPort() + "/update/" + params;
-//            System.out.println("Has some to: " + url_);
             try {
                 URL url = new URL(url_); // 
-//                System.out.println("Try open");
                 URLConnection uc = url.openConnection();
-//                System.out.println("Connection Open");
                 HttpURLConnection conn = (HttpURLConnection) uc;
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
                 conn.setRequestMethod("POST");
-//                System.out.println("Method Accepted");
 
                 conn.setUseCaches(false);
                 conn.setAllowUserInteraction(false);
                 conn.setRequestProperty("Content-Type",
                         "application/x-www-form-urlencoded");
 
-//                System.out.println("Send info to: " + "http://" + ouvinte.getIp() + ":" + ouvinte.getPort() + ""); // /update/
-
-                // Create the form content
-//                OutputStream out = conn.getOutputStream();
-//                System.out.println("Got outputstream");
-//                Writer writer = new OutputStreamWriter(out, "UTF-8");
-//                System.out.println("Whriter opened");
-//                
-//                writer.write(params);
-//                writer.flush();
                 int resp = conn.getResponseCode();
-//                System.out.println("Resp" + resp);
-//                String[] paramName = new String[]{"id", "value"};
-//                String[] paramVal = new String[]{empresa.getID(), empresa.getValue().toString()};
-//                for (int i = 0; i < paramName.length; i++) {
-//                    writer.write(paramName[i]);
-//                    writer.write("=");
-//                    writer.write(URLEncoder.encode(paramVal[i], "UTF-8"));
-//                    writer.write("&");
-//                }
-//                writer.close();
-//                out.close();
 
                 conn.disconnect();
             } catch (IOException io) {

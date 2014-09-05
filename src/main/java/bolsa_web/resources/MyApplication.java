@@ -11,8 +11,8 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 /**
- *
- * @author henrique
+ * Classe de inicialização da aplicação.
+ * @author Henrique
  */
 public class MyApplication extends Application{
 

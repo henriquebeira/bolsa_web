@@ -12,10 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Request;
-import javax.ws.rs.core.UriInfo;
 import net.controles.service.ServerImplementation;
 
 /*
@@ -27,13 +24,6 @@ public class BolsaResource {
 
     ServerImplementation server = new ServerImplementation();
     Integer inte = 0;
-
-// Allows to insert contextual objects into the class, 
-// e.g. ServletContext, Request, Response, UriInfo
-//    @Context
-//    UriInfo uriInfo;
-//    @Context
-//    Request request;
 
     // Retorna uma lista de todas as empresas cadastradas no servidor (Browser).
     @GET
